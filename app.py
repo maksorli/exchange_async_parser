@@ -1,5 +1,6 @@
 from fetch_links import LinkFetcher
 from file_processor import FileProcessor
+import time
 
 # from services.data_service import DataService
 from io import BytesIO
@@ -26,12 +27,19 @@ def run():
         file_date = extract_date_from_url(file_url)
         if file_date > target_date:
             try:
+                start_time = time.time()
                 response = requests.get(file_url)
+                start_time_1 = time.time()
+                el_time = start_time_1-start_time
+                logger.info(f"Файл скачан за {el_time} ")
                 response.raise_for_status()
-
+                
+                
                 processor = FileProcessor(BytesIO(response.content))
-                processed_data = processor.read_and_process()
 
+                processed_data = processor.read_and_process()
+                elapsed_time = time.time() - start_time_1
+                logger.info(f"Файл оработан за {elapsed_time}")
                 if processed_data is not None:
                     for _, row in processed_data.iterrows():
                         product_data = prepare_data(

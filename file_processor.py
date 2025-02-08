@@ -47,12 +47,12 @@ class FileProcessor:
 
             metric_ton_index = metric_ton_row.index[0]
             start_index = metric_ton_index + 3
-            logger.info(f"Таблица начинается со строки  {metric_ton_index+3}")
+            # logger.info(f"Таблица начинается со строки  {metric_ton_index+3}")
 
             rows = []
             for index, row in df.iloc[start_index:].iterrows():
                 if row.astype(str).str.contains("Итого:", case=False).any():
-                    logger.info(f"'Итого' найдено на строке с индексом {index}")
+                    # logger.info(f"'Итого' найдено на строке с индексом {index}")
                     break
                 try:
                     if int(row["count"]) > 0:
