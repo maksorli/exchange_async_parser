@@ -13,24 +13,24 @@ from datetime import datetime
 
 logger = setup_logger("app", "logs.log")
 
-MAX_DOWNLOADS = 10
+MAX_DOWNLOADS = 15
 target_date = datetime.strptime("31.12.2022", "%d.%m.%Y").date()
 
 
 
  
-async def fetch_all_links():
-    fetcher = LinkFetcher(BASE_URL)
-    links = []
+# async def fetch_all_links():
+#     fetcher = LinkFetcher(BASE_URL)
+#     links = []
 
-    async for file_url in fetcher.fetch_links():
-        file_date = extract_date_from_url(file_url)
-        if file_date > target_date:
-            links.append(file_url)
-        else:
-            break
+#     async for file_url in fetcher.fetch_links():
+#         file_date = extract_date_from_url(file_url)
+#         if file_date > target_date:
+#             links.append(file_url)
+#         else:
+#             break
     
-    return links
+#     return links
 
  
 async def process_file(file_url, semaphore):
@@ -78,14 +78,24 @@ async def process_file(file_url, semaphore):
 async def run():
  
 
- 
-        links = await fetch_all_links()
-        logger.info(f"Всего найдено {len(links)} ссылок")
+        fetcher = LinkFetcher(BASE_URL, max_pages=20)
         semaphore = asyncio.Semaphore(MAX_DOWNLOADS)
-        tasks = [process_file(file_url, semaphore ) for file_url in links]
+        tasks = []
+
+        async for file_url in fetcher.fetch_links():
+            file_date = extract_date_from_url(file_url)
+            if file_date > target_date:
+                tasks.append(process_file(file_url, semaphore))
+            else:
+                break
+       
+        
         await asyncio.gather(*tasks)
             
-            
+        async with AsyncSessionLocal() as db:
+            repository = Repository(db)
+            record_count = await repository.count()
+            logger.info(f"Работа закончена, добавлено {record_count} строк")
 if __name__ == "__main__":
     start_time = time.time()
     asyncio.run(run())
