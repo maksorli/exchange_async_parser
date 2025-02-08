@@ -13,7 +13,7 @@ from datetime import datetime
 
 logger = setup_logger("app", "logs.log")
 
-MAX_DOWNLOADS = 15
+MAX_DOWNLOADS = 10
 target_date = datetime.strptime("31.12.2022", "%d.%m.%Y").date()
 
 
@@ -49,7 +49,6 @@ async def process_file(file_url, semaphore):
 
                 processor = FileProcessor(BytesIO(response.content))
 
-                # Асинхронная обработка файла в отдельном потоке
                 processed_data = await asyncio.to_thread(processor.read_and_process)
 
                 elapsed_time = time.time() - start_time_1
