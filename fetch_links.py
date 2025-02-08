@@ -1,4 +1,5 @@
 import requests
+import httpx
 from lxml import html
 from utils import setup_logger
 
@@ -9,14 +10,14 @@ class LinkFetcher:
     def __init__(self, base_url):
         self.base_url = base_url
 
-    def fetch_links(self):
+    async def fetch_links(self):
         num_page = 1
 
-        with requests.Session() as session:
+        async with httpx.AsyncClient() as client:
             while True:
                 url = f"{self.base_url}/markets/oil_products/trades/results/?page=page-{num_page}"
                 try:
-                    response = session.get(url)
+                    response = await client.get(url)
                     response.raise_for_status()
 
                     if response.status_code == 200:
@@ -38,6 +39,6 @@ class LinkFetcher:
                         )
                         break
 
-                except requests.RequestException as e:
+                except httpx.RequestError as e:
                     logger.error(f"Error fetching {url}: {e}")
                     break
