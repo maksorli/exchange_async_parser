@@ -7,7 +7,7 @@ from io import BytesIO
 import requests
 from config import BASE_URL
 from utils import setup_logger, prepare_data, extract_date_from_url, run_time
-from repository.base import AsyncSessionLocal
+from repository.base import AsyncSessionLocal, init_db
 from repository.repository import Repository
 from datetime import datetime
 
@@ -76,7 +76,7 @@ async def process_file(file_url, semaphore):
 @run_time
 async def run():
  
-
+        await init_db()
         fetcher = LinkFetcher(BASE_URL, max_pages=20)
         semaphore = asyncio.Semaphore(MAX_DOWNLOADS)
         tasks = []
@@ -95,7 +95,11 @@ async def run():
             repository = Repository(db)
             record_count = await repository.count()
             logger.info(f"Работа закончена, добавлено {record_count} строк")
+
+ 
+        
 if __name__ == "__main__":
     start_time = time.time()
+    #asyncio.run(init_db())
     asyncio.run(run())
     logger.info(f"Время выполнения программы {start_time - time.time():.2f} секунд")
