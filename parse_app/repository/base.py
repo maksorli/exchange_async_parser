@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
+from parse_app.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
 from repository.models import Base
 
@@ -18,3 +18,7 @@ AsyncSessionLocal = async_sessionmaker(
 async def init_db():
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session

@@ -1,7 +1,7 @@
 import asyncio
 import httpx
 from lxml import html
-from utils import setup_logger
+from parse_app.utils import setup_logger
 
 logger = setup_logger("LinkFetcher", "logs.log")
 

@@ -1,12 +1,12 @@
-from fetch_links import LinkFetcher
-from file_processor import FileProcessor
+from parse_app.fetch_links import LinkFetcher
+from parse_app.file_processor import FileProcessor
 import time
 import asyncio
 import httpx
 from io import BytesIO
 import requests
-from config import BASE_URL
-from utils import setup_logger, prepare_data, extract_date_from_url, run_time
+from parse_app.config import BASE_URL
+from parse_app.utils import setup_logger, prepare_data, extract_date_from_url, run_time
 from repository.base import AsyncSessionLocal, init_db
 from repository.repository import Repository
 from datetime import datetime

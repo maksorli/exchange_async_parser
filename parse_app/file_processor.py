@@ -1,5 +1,5 @@
 import pandas as pd
-from utils import setup_logger
+from parse_app.utils import setup_logger
 
 logger = setup_logger("FileProcessor", "logs.log")
 
