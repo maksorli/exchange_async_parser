@@ -4,3 +4,4 @@ venv/
 __pycache__/
 *.log
 logs.log
+TZ.MD

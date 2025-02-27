@@ -7,7 +7,7 @@ from io import BytesIO
 import requests
 from parse_app.config import BASE_URL
 from parse_app.utils import setup_logger, prepare_data, extract_date_from_url, run_time
-from repository.base import AsyncSessionLocal, init_db
+from models.base import AsyncSessionLocal, init_db
 from repository.repository import Repository
 from datetime import datetime
 

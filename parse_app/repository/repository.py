@@ -1,4 +1,4 @@
-from repository.models import Spimex
+from models.models import Spimex
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import func
