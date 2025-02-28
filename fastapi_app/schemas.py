@@ -27,15 +27,7 @@ class TradingDynamicsRequest(BaseModel):
     oil_id: Optional[str] = Field(None, description="Идентификатор нефти")
     delivery_type_id: Optional[str] = Field(None, description="Тип поставки")
     delivery_basis_id: Optional[str] = Field(None, description="База поставки")
-    start_date: Optional[date] = Field(None, description="Дата начала периода")
-    end_date: Optional[date] = Field(None, description="Дата окончания периода")
+    start_date: date = Field(description="Дата начала периода")
+    end_date: date = Field(description="Дата окончания периода")
 
-# Модель ответа
-class TradingDynamicsResponse(BaseModel):
-    date: datetime
-    oil_id: str
-    delivery_type_id: str
-    delivery_basis_id: str
-    volume: int
-    total: int
-    count: int
+ 
