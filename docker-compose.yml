@@ -1,19 +1,19 @@
 
 services:
-  # parse_app:
-  #   build: ./parse_app
-  #   container_name: parse_app
-  #   depends_on:
-  #     - db
-  #   env_file:
-  #     - .env 
-  #   environment:
-  #     - DATABASE_URL=postgresql://postgres:password@db:5432/mydatabase
-  #   volumes:
-  #     - .:/app
-  #   command: ["python", "parse_app/app.py"]
-  #   networks:
-  #     - my_network
+  parse_app:
+    build: ./parse_app
+    container_name: parse_app
+    depends_on:
+      - db
+    env_file:
+      - .env 
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/mydatabase
+    volumes:
+      - .:/app
+    command: ["python", "parse_app/app.py"]
+    networks:
+      - my_network
   fastapi_app:
     build: ./fastapi_app
     volumes:
