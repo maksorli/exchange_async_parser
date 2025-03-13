@@ -1,19 +1,19 @@
 
 services:
-  parse_app:
-    build: ./parse_app
-    container_name: parse_app
-    depends_on:
-      - db
-    env_file:
-      - .env 
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/mydatabase
-    volumes:
-      - .:/app
-    command: ["python", "parse_app/app.py"]
-    networks:
-      - my_network
+  # parse_app:
+  #   build: ./parse_app
+  #   container_name: parse_app
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - .env 
+  #   environment:
+  #     - DATABASE_URL=postgresql://postgres:password@db:5432/mydatabase
+  #   volumes:
+  #     - .:/app
+  #   command: ["python", "parse_app/app.py"]
+  #   networks:
+  #     - my_network
   fastapi_app:
     build: ./fastapi_app
     volumes:
@@ -55,9 +55,23 @@ services:
     networks:
       - my_network
 
-
+  test_db:
+      image: postgres:15
+      container_name: test_db
+      restart: always
+      environment:
+        POSTGRES_USER: em3_user
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: testdb
+      ports:
+        - "5435:5432"
+      volumes:
+        - test_pgdata:/var/lib/postgresql/data
+      networks:
+        - my_network
 volumes:
   pgdata:
+  test_pgdata:
 
 networks:
   my_network:

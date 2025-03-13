@@ -21,7 +21,7 @@ class SpimexRepository:
         
             stmt = select(Spimex.date).distinct().order_by(Spimex.date.desc()).limit(n)
             result = await db.execute(stmt)       
-            return [row.date() for row in result.scalars().all()]
+            return result.scalars().all()
     
  
     
