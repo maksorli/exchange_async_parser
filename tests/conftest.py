@@ -11,5 +11,6 @@ async_session_maker = sessionmaker(bind=engine, class_=AsyncSession, expire_on_c
 @pytest_asyncio.fixture(scope="function")
 async def db():
     async with async_session_maker() as session:
-        yield session
-        await session.rollback()  # Откатываем транзакцию после каждого теста
+        async with session.begin():  # Начинаем транзакцию
+            yield session
+            await session.rollback()  # Откатываем все изменения

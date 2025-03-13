@@ -14,7 +14,7 @@ async def test_get_last_trading_dates_returns_dates_in_descending_order(db):
 @pytest.mark.asyncio
 async def test_get_last_trading_dates_empty_db(db):
     await db.execute(text('DELETE FROM spimex_trading_results;'))
-    await db.commit()
+    #await db.commit()
 
     dates = await SpimexRepository.get_last_trading_dates(5, db)
     assert dates == []
